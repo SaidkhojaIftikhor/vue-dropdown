@@ -3,6 +3,8 @@
     v-model="value"
     :items="items"
     placeholder="Select country"
+    :type="type"
+
   />
 </template>
 
@@ -20,20 +22,12 @@ export default {
     const state = reactive({
       value: "",
       items: [
-        "Russia",
-        "USA",
-        "Canada",
-        "Australia",
-        "New Zealand",
-        "India",
-        "China",
-        "Japan",
-        "Korea",
-        "Taiwan",
-        "Germany",
-        "France",
+        "one",
+        "two",
+        "three",
+        "four",
       ],
-      type : 'select'
+      type: 'multiselect'
     });
 
     return state;

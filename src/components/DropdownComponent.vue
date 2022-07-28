@@ -4,7 +4,44 @@
       class="dropdown w-64 py-2 px-4 text-sm border text-left focus:outline-none focus:border-yellow-500 focus:border-1 flex justify-between items-center"
       @click="toggleDropdown"
     >
-      {{ modelValue ? modelValue : placeholder }}
+      <div>
+        <div v-if="type === 'multiselect'" class="flex items-center gap-1">
+          <span
+            v-if="modelValue.length > 0"
+            v-for="(item, index) in modelValue"
+            :key="index"
+            class="flex items-center gap-[2px]"
+          >
+            {{ item }}
+
+            <div
+            @click="handleDelete(item)"
+            >
+              <svg
+                width="11"
+                height="11"
+                viewBox="0 0 11 11"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10.0215 1.02861L9.01432 0.0214657L5.02147 4.01432L1.02861 0.0214657L0.0214657 1.02861L4.01432 5.02147L0.0214657 9.01432L1.02861 10.0215L5.02147 6.02861L9.01432 10.0215L10.0215 9.01432L6.02861 5.02147L10.0215 1.02861Z"
+                  fill="#FFBC0F"
+                />
+              </svg>
+            </div>
+          </span>
+          <span v-else>
+            {{ placeholder }}
+          </span>
+        </div>
+
+        <div v-if="type === 'select'">
+          <span>
+            {{ modelValue || placeholder }}
+          </span>
+        </div>
+      </div>
 
       <i
         class="transition linear duration-300"
@@ -34,9 +71,17 @@
         v-for="(item, index) in items"
         :key="index"
         @click="handleSelect(item)"
-        class="block text-left py-2.5 px-4 text-base font-normal hover:bg-[#FFF9F4] active:bg-[#FF9A4D] active:text-white active:cursor-pointer"
+        class="flex items-center justify-between text-left py-2.5 px-4 text-base font-normal hover:bg-[#FFF9F4] active:bg-[#FF9A4D] active:text-white active:cursor-pointer"
       >
         {{ item }}
+        <input
+          v-show="type === 'multiselect'"
+          type="checkbox"
+          :id="`checkbox-${index}`"
+          :value="item"
+          :checked="modelValue.includes(item)"
+          @change="handleChange"
+        />
       </div>
     </div>
   </div>
@@ -49,21 +94,42 @@ export default {
   props: {
     placeholder: String,
     items: Array,
-    type: String
-    modelValue: String,
+    type: {
+      type: String,
+      default: "select",
+    },
+    modelValue: String | Array,
   },
-  emits: ['update:modelValue'],
+  emits: ["update:modelValue"],
 
-  setup(props, {emit}) {
+  setup(props, { emit }) {
     const state = reactive({
       isDropdownOpen: false,
     });
 
     const handleSelect = (item) => {
+      if (props.type === "multiselect") return;
       emit("update:modelValue", item);
       state.isDropdownOpen = false;
     };
 
+    const handleChange = (e) => {
+      const checked = e.target.checked;
+      const value = e.target.value;
+      let newModele = props.modelValue || [];
+      if (checked) {
+        newModele.push(value);
+      } else {
+        newModele = newModele.filter((item) => item !== value);
+      }
+      emit("update:modelValue", newModele);
+    };
+
+    const handleDelete = (item) => {
+      const newModele = props.modelValue.filter((itm) => itm !== item);
+      emit("update:modelValue", newModele);
+      
+    }
     const toggleDropdown = () => {
       state.isDropdownOpen = !state.isDropdownOpen;
     };
@@ -72,6 +138,8 @@ export default {
       state,
       handleSelect,
       toggleDropdown,
+      handleChange,
+      handleDelete,
     };
   },
 };
