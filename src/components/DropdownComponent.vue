@@ -139,7 +139,7 @@ export default {
       handleSelect,
       toggleDropdown,
       handleChange,
-      handleDelete,
+      handleDeselect,
     };
   },
 };
