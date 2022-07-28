@@ -52,14 +52,15 @@ export default {
     type: String
     modelValue: String,
   },
+  emits: ['update:modelValue'],
 
-  setup(props, context) {
+  setup(props, {emit}) {
     const state = reactive({
       isDropdownOpen: false,
     });
 
     const handleSelect = (item) => {
-      context.$emit("update:modelValue", item);
+      emit("update:modelValue", item);
       state.isDropdownOpen = false;
     };
 

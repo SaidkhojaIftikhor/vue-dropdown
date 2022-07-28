@@ -11,6 +11,11 @@ import { reactive } from "vue";
 import DropdownComponent from "./DropdownComponent.vue";
 
 export default {
+  name: "CountryDropdown",
+  components: {
+    DropdownComponent,
+  },
+  
   setup() {
     const state = reactive({
       value: "",
@@ -31,11 +36,6 @@ export default {
     });
 
     return state;
-  },
-
-  name: "CountryDropdown",
-  components: {
-    DropdownComponent,
   },
 };
 </script>
