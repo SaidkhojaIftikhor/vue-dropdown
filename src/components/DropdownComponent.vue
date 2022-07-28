@@ -136,7 +136,11 @@ export default {
       handleSelect,
       toggleDropdown,
       handleChange,
+<<<<<<< HEAD
       handleDeSelect,
+=======
+      handleDeselect,
+>>>>>>> db9529fa5625466f0222ddff17140455c83de5c5
     };
   },
 };
