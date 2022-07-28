@@ -44,13 +44,12 @@
 
 <script>
 import { reactive } from "vue";
-
 export default {
   name: "DropdownComponent",
   props: {
     placeholder: String,
     items: Array,
-    type: String,
+    type: String
     modelValue: String,
   },
 
