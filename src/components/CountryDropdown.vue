@@ -33,7 +33,7 @@ export default {
         "Germany",
         "France",
       ],
-      type : 'select'
+      type : "select"
     });
 
     return state;
