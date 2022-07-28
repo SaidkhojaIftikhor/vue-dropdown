@@ -5,7 +5,7 @@
       @click="toggleDropdown"
     >
       <div>
-        <div v-if="type === 'multiselect'" class="flex items-center gap-1">
+        <div v-if="type === DropdownTypes.MULTISELECT" class="flex items-center gap-1">
           <span
             v-if="modelValue.length > 0"
             v-for="(item, index) in modelValue"
@@ -14,7 +14,7 @@
           >
             {{ item }}
 
-            <div @click="handleDeSelect(item)">
+            <div @click="handleDeselect(item)">
               <svg
                 width="11"
                 height="11"
@@ -34,7 +34,7 @@
           </span>
         </div>
 
-        <div v-if="type === 'select'">
+        <div v-if="type === DropdownTypes.SELECT">
           <span>
             {{ modelValue || placeholder }}
           </span>
@@ -87,6 +87,12 @@
 
 <script>
 import { reactive } from "vue";
+
+const DropdownTypes = {
+  SELECT: "select",
+  MULTISELECT: "multiselect",
+};
+
 export default {
   name: "DropdownComponent",
   props: {
@@ -94,7 +100,7 @@ export default {
     items: Array,
     type: {
       type: String,
-      default: "select",
+      default: DropdownTypes.SELECT,
     },
     modelValue: String | Array,
   },
@@ -106,7 +112,7 @@ export default {
     });
 
     const handleSelect = (item) => {
-      if (props.type === "multiselect") return;
+      if (props.type === DropdownTypes.MULTISELECT) return;
       emit("update:modelValue", item);
       state.isDropdownOpen = false;
     };
@@ -123,7 +129,7 @@ export default {
       emit("update:modelValue", newModele);
     };
 
-    const handleDeSelect = (item) => {
+    const handleDeselect = (item) => {
       const newModele = props.modelValue.filter((itm) => itm !== item);
       emit("update:modelValue", newModele);
     };
@@ -136,11 +142,8 @@ export default {
       handleSelect,
       toggleDropdown,
       handleChange,
-<<<<<<< HEAD
-      handleDeSelect,
-=======
       handleDeselect,
->>>>>>> db9529fa5625466f0222ddff17140455c83de5c5
+      DropdownTypes
     };
   },
 };
