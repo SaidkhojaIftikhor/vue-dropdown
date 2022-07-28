@@ -14,9 +14,7 @@
           >
             {{ item }}
 
-            <div
-            @click="handleDelete(item)"
-            >
+            <div @click="handleDeSelect(item)">
               <svg
                 width="11"
                 height="11"
@@ -125,11 +123,10 @@ export default {
       emit("update:modelValue", newModele);
     };
 
-    const handleDelete = (item) => {
+    const handleDeSelect = (item) => {
       const newModele = props.modelValue.filter((itm) => itm !== item);
       emit("update:modelValue", newModele);
-      
-    }
+    };
     const toggleDropdown = () => {
       state.isDropdownOpen = !state.isDropdownOpen;
     };
@@ -139,7 +136,7 @@ export default {
       handleSelect,
       toggleDropdown,
       handleChange,
-      handleDelete,
+      handleDeSelect,
     };
   },
 };
